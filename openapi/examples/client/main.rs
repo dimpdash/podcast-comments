@@ -5,26 +5,8 @@
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
 use openapi_client::{Api, ApiNoContext, Client, ContextWrapperExt, models,
-                      AddPetResponse,
-                      DeletePetResponse,
-                      FindPetsByStatusResponse,
-                      FindPetsByTagsResponse,
-                      GetPetByIdResponse,
-                      UpdatePetResponse,
-                      UpdatePetWithFormResponse,
-                      UploadFileResponse,
-                      DeleteOrderResponse,
-                      GetInventoryResponse,
-                      GetOrderByIdResponse,
-                      PlaceOrderResponse,
-                      CreateUserResponse,
-                      CreateUsersWithArrayInputResponse,
-                      CreateUsersWithListInputResponse,
-                      DeleteUserResponse,
-                      GetUserByNameResponse,
-                      LoginUserResponse,
-                      LogoutUserResponse,
-                      UpdateUserResponse,
+                      AddCommentResponse,
+                      GetCommentResponse,
                      };
 use clap::{App, Arg};
 
@@ -46,21 +28,8 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "DeletePet",
-                "FindPetsByStatus",
-                "FindPetsByTags",
-                "GetPetById",
-                "UpdatePetWithForm",
-                "UploadFile",
-                "DeleteOrder",
-                "GetInventory",
-                "GetOrderById",
-                "CreateUsersWithArrayInput",
-                "CreateUsersWithListInput",
-                "DeleteUser",
-                "GetUserByName",
-                "LoginUser",
-                "LogoutUser",
+                "AddComment",
+                "GetComment",
             ])
             .required(true)
             .index(1))
@@ -104,141 +73,17 @@ fn main() {
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
     match matches.value_of("operation") {
-        /* Disabled because there's no example.
-        Some("AddPet") => {
-            let result = rt.block_on(client.add_pet(
-                  ???
+        Some("AddComment") => {
+            let result = rt.block_on(client.add_comment(
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
-        Some("DeletePet") => {
-            let result = rt.block_on(client.delete_pet(
-                  789,
-                  Some("api_key_example".to_string())
+        Some("GetComment") => {
+            let result = rt.block_on(client.get_comment(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("FindPetsByStatus") => {
-            let result = rt.block_on(client.find_pets_by_status(
-                  &Vec::new()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("FindPetsByTags") => {
-            let result = rt.block_on(client.find_pets_by_tags(
-                  &Vec::new()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetPetById") => {
-            let result = rt.block_on(client.get_pet_by_id(
-                  789
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        /* Disabled because there's no example.
-        Some("UpdatePet") => {
-            let result = rt.block_on(client.update_pet(
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
-        Some("UpdatePetWithForm") => {
-            let result = rt.block_on(client.update_pet_with_form(
-                  789,
-                  Some("name_example".to_string()),
-                  Some("status_example".to_string())
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("UploadFile") => {
-            let result = rt.block_on(client.upload_file(
-                  789,
-                  Some("additional_metadata_example".to_string()),
-                  Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("DeleteOrder") => {
-            let result = rt.block_on(client.delete_order(
-                  "order_id_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetInventory") => {
-            let result = rt.block_on(client.get_inventory(
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetOrderById") => {
-            let result = rt.block_on(client.get_order_by_id(
-                  789
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        /* Disabled because there's no example.
-        Some("PlaceOrder") => {
-            let result = rt.block_on(client.place_order(
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
-        /* Disabled because there's no example.
-        Some("CreateUser") => {
-            let result = rt.block_on(client.create_user(
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
-        Some("CreateUsersWithArrayInput") => {
-            let result = rt.block_on(client.create_users_with_array_input(
-                  &Vec::new()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("CreateUsersWithListInput") => {
-            let result = rt.block_on(client.create_users_with_list_input(
-                  &Vec::new()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("DeleteUser") => {
-            let result = rt.block_on(client.delete_user(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetUserByName") => {
-            let result = rt.block_on(client.get_user_by_name(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("LoginUser") => {
-            let result = rt.block_on(client.login_user(
-                  "username_example".to_string(),
-                  "password_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("LogoutUser") => {
-            let result = rt.block_on(client.logout_user(
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        /* Disabled because there's no example.
-        Some("UpdateUser") => {
-            let result = rt.block_on(client.update_user(
-                  "username_example".to_string(),
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
         _ => {
             panic!("Invalid operation provided")
         }

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **addComment**
-> models::Comment addComment(comment)
+> models::Comment addComment(optional)
 Add a new comment to the podcast
 
 
@@ -18,7 +18,14 @@ Add a new comment to the podcast
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **comment** | [**Comment**](Comment.md)| Comment object that needs to be added to the podcast | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **comment** | [**Comment**](Comment.md)|  | 
 
 ### Return type
 
@@ -30,13 +37,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getComment**
-> models::Comment getComment()
+> Vec<models::Comment> getComment()
 Get all comments
 
 
@@ -46,7 +53,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**models::Comment**](Comment.md)
+[**Vec<models::Comment>**](Comment.md)
 
 ### Authorization
 
